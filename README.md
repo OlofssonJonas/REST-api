@@ -4,6 +4,9 @@
 I den här uppgiften har jag skapat ett REST-api innehållande ett litet urval av olika produkter till en webshop.
 
 Jag har använt mig utav npm express och node.js för att bygga applikationen.
+Jag började med att starta upp en express server lokalt på min dator genom att för initiera npm genom att skriva npm init -y i terminalen, sen installerade jag express genom att skriva npm install express.
+jag valde också att installera nodemon, ett npm paket som gör att servern uppdateras så fort jag sparar i vs code.
+
 Så för att komma igång och kunna testa applikationen så öppna terminalen i vs code (cmd + j (mac) eller ctrl + j(pc)) och skriv in npm start så är servern igång på port 3000
 
 Jag har uppfyllt följande krav för G:
