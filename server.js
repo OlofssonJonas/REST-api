@@ -1,14 +1,20 @@
 const express = require ('express')
 
+
+//Skriv så här för att kunna fetcha din localhost
+const cors = require('cors')
+
+
 //porten för serven sätter jag till 3000
 const port = 3000
 
 //Här öppnar jag upp så att jag kan använda fs
-const fs = require('fs')
+const fs = require('fs') 
 
 
 const app = express()
 
+app.use(cors())
 app.use(express.json())
 
     //GET
@@ -19,7 +25,7 @@ app.use(express.json())
                 console.log(err)
                 res.status(404).send('Produts doesn´t exist')
                }else{
-                res.send(data)
+                res.status(200).send(data)
                }
             })
         })
@@ -28,10 +34,10 @@ app.use(express.json())
             fs.readFile('./products.json', function(err, data){
                 data = JSON.parse(data)
                 const product = data.find((p) => p.id == req.params.id)
-                if(product) {
-                    res.status(200).send(product)
+                if(!product) {
+                    res.status(404).send('Id doesn´t exist')
                 }else{
-                    res.status(404).send(err)
+                    res.status(200).send(product)
                 } 
             })
         })
@@ -42,8 +48,9 @@ app.use(express.json())
             const savedData = JSON.parse(data)
              
                const jsonData = req.body
-                //multiplicerar ett nytt id med 1000000
-            jsonData.id = Math.floor(Math.random() * 1000000)
+
+                //multiplicerar ett nytt id med 1000000 och gör det till en sträng
+            jsonData.id = Math.floor(Math.random() * 1000000).toString()
             
             console.log(jsonData)
 
@@ -55,8 +62,7 @@ app.use(express.json())
                      }else{
                          res.status(201).send(jsonData)    
                     }
-                }
-            );
+                });
         });
     });
                         
@@ -72,13 +78,13 @@ app.use(express.json())
             if(!product) {
               res.status(404).send('the id doesnt exist')
               }
+
               //Här väljer jag så att jag kan uppdatera priset
               product.price = req.body.price
               
           fs.writeFile("./products.json", JSON.stringify(savedData, null, 2),function (err) {
             if (err) {
-              console.log("Loooser");
-              return console.log(err);
+              
               } else {
                 res.status(201).send(product);
               }
@@ -104,7 +110,7 @@ app.use(express.json())
                   }else{
                       res.status(201).send(product)
                   }
-             })
+                })
             })
         })
 

@@ -2,17 +2,17 @@ GET http://localhost:3000/api/products
 
 ###
 
-GET http://localhost:3000/api/products/
+GET http://localhost:3000/api/products/822261
 ###
 
 POST http://localhost:3000/api/products
 Content-Type: application/json
 
- {"id": "5", "model": "samsung s8", "type": "phone", "price": "4790"}
+ {"id": "", "model": "samsung s8", "type": "phone", "price": "4790"}
 ###
 
 //PUT 
-PUT http://localhost:3000/api/products/
+PUT http://localhost:3000/api/products/822261
 Content-Type: application/json
 
 {"price": "6000"}
@@ -20,6 +20,6 @@ Content-Type: application/json
 ###
 
 //DELETE
-DELETE http://localhost:3000/api/products/
+DELETE http://localhost:3000/api/products/822261
 
 ###
