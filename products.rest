@@ -2,7 +2,8 @@ GET http://localhost:3000/api/products
 
 ###
 
-GET http://localhost:3000/api/products/822261
+GET http://localhost:3000/api/products/15634
+
 ###
 
 POST http://localhost:3000/api/products
@@ -12,7 +13,7 @@ Content-Type: application/json
 ###
 
 //PUT 
-PUT http://localhost:3000/api/products/822261
+PUT http://localhost:3000/api/products/71
 Content-Type: application/json
 
 {"price": "6000"}
@@ -20,6 +21,6 @@ Content-Type: application/json
 ###
 
 //DELETE
-DELETE http://localhost:3000/api/products/822261
+DELETE http://localhost:3000/api/products/330713
 
 ###

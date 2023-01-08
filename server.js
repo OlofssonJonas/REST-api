@@ -1,7 +1,7 @@
 const express = require ('express')
 
 
-//Skriv så här för att kunna fetcha din localhost
+//Skriv så här för att kunna fetcha din localhost från din frontend
 const cors = require('cors')
 
 
@@ -18,12 +18,11 @@ app.use(cors())
 app.use(express.json())
 
     //GET
-        app.get('/api/products', (req, res) => {
+            app.get('/api/products', (req, res) => {
             fs.readFile('./products.json', function(err, data){
                 data = JSON.parse(data)
                if(err) {
-                console.log(err)
-                res.status(404).send('Produts doesn´t exist')
+                res.status(404).send('Cannot read file')
                }else{
                 res.status(200).send(data)
                }
@@ -34,8 +33,8 @@ app.use(express.json())
             fs.readFile('./products.json', function(err, data){
                 data = JSON.parse(data)
                 const product = data.find((p) => p.id == req.params.id)
-                if(!product) {
-                    res.status(404).send('Id doesn´t exist')
+                if(err) {
+                    res.status(404).send('Cannot read file')
                 }else{
                     res.status(200).send(product)
                 } 
@@ -46,19 +45,19 @@ app.use(express.json())
      app.post('/api/products', (req, res) => {
        fs.readFile('./products.json', function(err, data){
             const savedData = JSON.parse(data)
-             
-               const jsonData = req.body
+            const jsonData = req.body
+             if (err){
+                res.status(404).send('Cannot read file')
+             }
 
                 //multiplicerar ett nytt id med 1000000 och gör det till en sträng
             jsonData.id = Math.floor(Math.random() * 1000000).toString()
-            
-            console.log(jsonData)
 
             savedData.push(jsonData)
 
             fs.writeFile('./products.json', JSON.stringify(savedData, null, 2), function(err) {
-            if(err) {
-                         console.log(err)
+                    if(err) {
+                        res.status(404).send('Not working')
                      }else{
                          res.status(201).send(jsonData)    
                     }
@@ -71,12 +70,14 @@ app.use(express.json())
     //PUT
     app.put("/api/products/:id", (req, res) => {
         fs.readFile("./products.json", function (err, data) {
+
             //Här sparar jag den parsade datan i en variabel
             let savedData = JSON.parse(data);
+
             // //Här letar jag upp det specifika id´t
             const product = savedData.find(p => p.id == (req.params.id))
-            if(!product) {
-              res.status(404).send('the id doesnt exist')
+            if(err) {
+              res.status(404).send('Cannot read file')
               }
 
               //Här väljer jag så att jag kan uppdatera priset
@@ -84,7 +85,7 @@ app.use(express.json())
               
           fs.writeFile("./products.json", JSON.stringify(savedData, null, 2),function (err) {
             if (err) {
-              
+                res.status(404).send('Cannot update')
               } else {
                 res.status(201).send(product);
               }
@@ -98,15 +99,15 @@ app.use(express.json())
          fs.readFile('./products.json', function(err, data){
           let savedData = JSON.parse(data);
           const product = savedData.find(p => p.id == (req.params.id))
-          if(!product) {
-            res.status(404).send('the id doesnt exist')
+          if(err) {
+            res.status(404).send('Cannot read file')
             }
             
              const index = savedData.indexOf(product)
               savedData.splice(index, 1)
               fs.writeFile('./products.json', JSON.stringify(savedData, null, 2), function(err) {
                   if(err) {
-                      console.log(err)
+                      res.status(404).send('Cannot delete')
                   }else{
                       res.status(201).send(product)
                   }
@@ -114,5 +115,5 @@ app.use(express.json())
             })
         })
 
-app.listen(port, () => console.log(`yihooo on port ${port}`));
+app.listen(port, () => console.log(`Yihooo, the server is up and running on port ${port}`));
 
